@@ -1,8 +1,14 @@
 package ftn.sep.tim2.model;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-public class OsiguravajucaKuca {
+public class OsiguravajucaKuca implements Serializable{
+	
+	private static final long serialVersionUID = -4134784298073252398L;
+
+	public OsiguravajucaKuca() {}
 	
 	private Long id;
 	private String pib;
@@ -12,4 +18,49 @@ public class OsiguravajucaKuca {
 	private String telefon; 
 	private List<TipOsiguranja> tipoviOsiguranja;
 	
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public String getPib() {
+		return pib;
+	}
+	public void setPib(String pib) {
+		this.pib = pib;
+	}
+	public String getNaziv() {
+		return naziv;
+	}
+	public void setNaziv(String naziv) {
+		this.naziv = naziv;
+	}
+	public String getAdresa() {
+		return adresa;
+	}
+	public void setAdresa(String adresa) {
+		this.adresa = adresa;
+	}
+	public String getMesto() {
+		return mesto;
+	}
+	public void setMesto(String mesto) {
+		this.mesto = mesto;
+	}
+	public String getTelefon() {
+		return telefon;
+	}
+	public void setTelefon(String telefon) {
+		this.telefon = telefon;
+	}
+	public List<TipOsiguranja> getTipoviOsiguranja() {
+		if (tipoviOsiguranja == null) {
+			return new ArrayList<TipOsiguranja>();
+		}
+		return tipoviOsiguranja;
+	}
+	public void setTipoviOsiguranja(List<TipOsiguranja> tipoviOsiguranja) {
+		this.tipoviOsiguranja = tipoviOsiguranja;
+	}
 }
