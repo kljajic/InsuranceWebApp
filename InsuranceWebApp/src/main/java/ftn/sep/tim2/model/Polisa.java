@@ -13,7 +13,7 @@ public class Polisa implements Serializable{
 	private Long id;
 	private Double cena;
 	private List<Osiguranje> osiguranja;
-	private List<Klijent> klijenti;
+	private Klijent klijent;
 	
 	public Long getId() {
 		return id;
@@ -36,15 +36,13 @@ public class Polisa implements Serializable{
 	public void setOsiguranja(List<Osiguranje> osiguranja) {
 		this.osiguranja = osiguranja;
 	}
-	public List<Klijent> getKlijenti() {
-		if(klijenti == null) {
-			return new ArrayList<Klijent>();
-		}
-		return klijenti;
+	public Klijent getKlijent() {
+		return klijent;
 	}
-	public void setKlijenti(List<Klijent> klijenti) {
-		this.klijenti = klijenti;
+	public void setKlijent(Klijent klijent) {
+		this.klijent = klijent;
 	}
+
 	
 
 }
