@@ -9,6 +9,8 @@ public class KontekstAtributa implements Serializable{
 	private static final long serialVersionUID = 2169394029110006240L;
 	private Long id;
 	private String naziv;
+	private Boolean visestrukoDodavanje;
+	private short redniBrojForme;
 	private List<TipAtributa> tipoviAtributa;
 	
 	public KontekstAtributa() {
@@ -28,6 +30,22 @@ public class KontekstAtributa implements Serializable{
 
 	public void setNaziv(String naziv) {
 		this.naziv = naziv;
+	}
+	
+	public Boolean getVisestrukoDodavanje() {
+		return visestrukoDodavanje;
+	}
+
+	public void setVisestrukoDodavanje(Boolean visestrukoDodavanje) {
+		this.visestrukoDodavanje = visestrukoDodavanje;
+	}
+
+	public short getRedniBrojForme() {
+		return redniBrojForme;
+	}
+
+	public void setRedniBrojForme(short redniBrojForme) {
+		this.redniBrojForme = redniBrojForme;
 	}
 
 	public List<TipAtributa> getTipoviAtributa() {
