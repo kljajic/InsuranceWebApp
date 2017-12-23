@@ -1,38 +1,42 @@
 package ftn.sep.tim2.controller;
 
+
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import ftn.sep.tim2.config.DatabaseUri;
-import ftn.sep.tim2.model.Polisa;
+import ftn.sep.tim2.model.TipAtributa;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/polise")
-public class PolisaController {
+@RequestMapping("/api/tipoviAtributa")
+public class TipAtributaController {
 	
 	private final DatabaseUri databaseUri;
 	private final RestTemplate restTemplate;
 	
 	@Autowired
-	public PolisaController(RestTemplate restTemplate, DatabaseUri databaseUri) {
+	public TipAtributaController(RestTemplate restTemplate, DatabaseUri databaseUri) {
 		this.restTemplate = restTemplate;
 		this.databaseUri = databaseUri;
 	}
 	
-	@PostMapping()
+	@SuppressWarnings("unchecked")
+	@GetMapping("/{tipOsiguranjaId}")
 	@ResponseBody
-	public ResponseEntity<Polisa> novaPolisa(@RequestBody Polisa polisa){
-		//Slanje polisa ka ExternalRequestHandler
-		Polisa response = restTemplate.postForObject(databaseUri.getDatabaseUri() + "/polise", polisa, Polisa.class);
-		return new ResponseEntity<Polisa>(response,HttpStatus.OK);
+	public ResponseEntity<List<TipAtributa>> getTipoviAtributa(@PathVariable("tipOsiguranjaId") Long tipOsiguranjaId){
+		List<TipAtributa> tipAtributa = restTemplate.getForObject(databaseUri.getDatabaseUri()+"/tipoviAtributa/zaTipOsiguranja/"+tipOsiguranjaId, List.class);
+		return new ResponseEntity<List<TipAtributa>>(tipAtributa,HttpStatus.OK);
 	}
 }
