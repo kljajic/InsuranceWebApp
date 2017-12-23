@@ -1,0 +1,13 @@
+<h2 class="text-center">Osiguravajuce Kuce</h2>
+
+<div class="row">
+  <div class="col-sm-6" *ngFor="let osiguravajucaKuca of osiguravajuceKuce">
+    <div class="card text-center">
+      <div class="card-block">
+        <h3 class="card-title">{{osiguravajucaKuca.naziv}}</h3>
+        <p class="card-text">{{osiguravajucaKuca.adresa}}, {{osiguravajucaKuca.mesto}}</p>
+        <a href="#" class="btn btn-primary" [routerLink]="['/osiguravajucaKuca', osiguravajucaKuca.id]">Sajt</a>
+      </div>
+    </div>
+  </div>
+</div>
