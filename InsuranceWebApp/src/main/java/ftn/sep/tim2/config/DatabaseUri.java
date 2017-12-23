@@ -1,4 +1,4 @@
-package ftn.sep.tim2.controller;
+package ftn.sep.tim2.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
