@@ -11,6 +11,7 @@ public class KontekstAtributa implements Serializable{
 	private String naziv;
 	private Boolean visestrukoDodavanje;
 	private short redniBrojForme;
+	private Boolean predstavljaGrupu;
 	private List<TipAtributa> tipoviAtributa;
 	
 	public KontekstAtributa() {
@@ -46,6 +47,14 @@ public class KontekstAtributa implements Serializable{
 
 	public void setRedniBrojForme(short redniBrojForme) {
 		this.redniBrojForme = redniBrojForme;
+	}
+
+	public Boolean getPredstavljaGrupu() {
+		return predstavljaGrupu;
+	}
+
+	public void setPredstavljaGrupu(Boolean predstavljaGrupu) {
+		this.predstavljaGrupu = predstavljaGrupu;
 	}
 
 	public List<TipAtributa> getTipoviAtributa() {
