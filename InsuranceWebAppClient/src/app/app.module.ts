@@ -10,8 +10,11 @@ import { FooterComponent } from './footer/footer.component';
 import { OsiguravajucaKucaComponent } from './osiguravajuca-kuca/osiguravajuca-kuca.component';
 
 import { OsiguravajuceKuceService } from './services/osiguravajuce-kuce.service';
+import { KupiOsiguranjeService } from './services/kupi-osiguranje.service';
 
 import { AppRoutingModule } from './app-routing/app-routing.module';
+import { KupiOsiguranjeComponent } from './kupi-osiguranje/kupi-osiguranje.component';
+import { ONamaComponent } from './o-nama/o-nama.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +22,9 @@ import { AppRoutingModule } from './app-routing/app-routing.module';
     OsiguravajuceKuceComponent,
     HeaderComponent,
     FooterComponent,
-    OsiguravajucaKucaComponent
+    OsiguravajucaKucaComponent,
+    KupiOsiguranjeComponent,
+    ONamaComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +32,8 @@ import { AppRoutingModule } from './app-routing/app-routing.module';
     AppRoutingModule
   ],
   providers: [
-    OsiguravajuceKuceService
+    OsiguravajuceKuceService,
+    KupiOsiguranjeService
   ],
   bootstrap: [AppComponent]
 })

@@ -23,6 +23,7 @@ export class OsiguravajucaKucaComponent implements OnInit {
     this.osiguravajuceKuceService.getOsiguravajucaKuca(id)
           .then(osiguravajucaKuca => this.osiguravajucaKuca = osiguravajucaKuca);
     this.osiguravajuceKuceService.changeState(true);
+    this.osiguravajuceKuceService.updateId(id);
   }
 
 }

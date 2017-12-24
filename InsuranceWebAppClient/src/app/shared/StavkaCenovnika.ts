@@ -1,8 +1,9 @@
 import { Cenovnik } from "./Cenovnik";
+import { PredefinisanaVrednost } from "./PredefinisanaVrednost";
 
 export class StavkaCenovnika{
     id: number;
     suma: number;
     cenovnik: Cenovnik;
-    //predefinisana vrednost
+    predefinisanaVrednost: PredefinisanaVrednost;
 };

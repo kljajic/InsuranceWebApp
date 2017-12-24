@@ -1,0 +1,10 @@
+<div class="row">
+  <div class="col-sm-6" *ngFor="let tipOsiguranja of tipoviOsiguranja">
+    <div class="card text-center">
+      <div class="card-block">
+        <h3 class="card-title">{{tipOsiguranja.naziv}}</h3>
+        <a class="btn btn-primary" [routerLink]="">Kupi online</a>
+      </div>
+    </div>
+  </div>
+</div>
