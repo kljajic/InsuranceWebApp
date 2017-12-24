@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { KupiOsiguranjeService } from '../services/kupi-osiguranje.service';
 import { TipOsiguranja } from '../shared/TipOsiguranja';
+import { OsiguravajuceKuceService } from '../services/osiguravajuce-kuce.service';
+import { OsiguravajucaKuca } from '../shared/OsiguravajucaKuca';
 
 @Component({
   selector: 'app-kupi-osiguranje',
@@ -9,14 +11,22 @@ import { TipOsiguranja } from '../shared/TipOsiguranja';
 })
 export class KupiOsiguranjeComponent implements OnInit {
 
-  constructor(private kupiOsiguranjeService: KupiOsiguranjeService) { }
+  tipoviOsiguranja: TipOsiguranja[];  
+  osiguravajucaKuca: OsiguravajucaKuca;
 
-  tipoviOsiguranja: TipOsiguranja[];
+  constructor(private kupiOsiguranjeService: KupiOsiguranjeService,
+              private osiguravajuceKuceService: OsiguravajuceKuceService) {
+              
+   }
+
   
   ngOnInit() {
-    //treba u backendu napraviti, nema...
-    //this.kupiOsiguranjeService.getAllTypesOfInsurance()
-      //.then(tipoviOsiguranja => this.tipoviOsiguranja = tipoviOsiguranja);
+    this.osiguravajuceKuceService.currentId.subscribe(id => {console.log(id); this.getTipoviOsiguranja(id)} );
+  }
+
+  getTipoviOsiguranja(id){
+    this.kupiOsiguranjeService.getAllTypesOfInsurance(id)
+      .then(tipoviOsiguranja => this.tipoviOsiguranja = tipoviOsiguranja); 
   }
 
 }

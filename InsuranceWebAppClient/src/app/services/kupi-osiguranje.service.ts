@@ -7,8 +7,8 @@ export class KupiOsiguranjeService {
 
   constructor(private http: Http) { }
 
-  getAllTypesOfInsurance(): Promise<TipOsiguranja[]>{
-    return this.http.get("/api/tipoviOsiguranja")
+  getAllTypesOfInsurance(id: number): Promise<TipOsiguranja[]>{
+    return this.http.get("/api/tipoviOsiguranja/"+id)
     .toPromise()
     .then(response => response.json() as TipOsiguranja[])
     .catch(this.handleError)

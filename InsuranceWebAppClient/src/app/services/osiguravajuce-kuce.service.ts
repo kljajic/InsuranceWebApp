@@ -13,8 +13,6 @@ export class OsiguravajuceKuceService {
 
   constructor(private http: Http) { }
 
-  //@Output() getOsiguravajucaKucaEmitter: EventEmitter<any> = new EventEmitter();
-
   private specificInsuranceCompany = new BehaviorSubject<boolean>(false);
   currentState = this.specificInsuranceCompany.asObservable();
 
@@ -22,9 +20,14 @@ export class OsiguravajuceKuceService {
     this.specificInsuranceCompany.next(specific);
   }
 
+  private getIdOfCompany = new BehaviorSubject<number>(0);
+  currentId = this.getIdOfCompany.asObservable();
+
+
   @Output() getCurrentId: EventEmitter<any> = new EventEmitter;
 
   updateId(id: number){
+    this.getIdOfCompany.next(id);
     this.getCurrentId.emit(id);
   }
 
@@ -36,7 +39,6 @@ export class OsiguravajuceKuceService {
   }
 
   getOsiguravajucaKuca(id: number): Promise<OsiguravajucaKuca>{
-    //this.getOsiguravajucaKucaEmitter.emit(this.http.get('/api/osiguravajuceKuce/'+id));    
     return this.http.get('/api/osiguravajuceKuce/'+id)
       .toPromise()
       .then(response => response.json() as OsiguravajucaKuca)
