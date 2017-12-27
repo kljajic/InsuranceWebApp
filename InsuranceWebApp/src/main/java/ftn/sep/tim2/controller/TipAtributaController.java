@@ -33,10 +33,19 @@ public class TipAtributaController {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@GetMapping("/{tipOsiguranjaId}")
+	@GetMapping("/zaTipOsiguranja/{tipOsiguranjaId}")
 	@ResponseBody
-	public ResponseEntity<List<TipAtributa>> getTipoviAtributa(@PathVariable("tipOsiguranjaId") Long tipOsiguranjaId){
+	public ResponseEntity<List<TipAtributa>> getTipoviAtributaZaTipOsiguranja(@PathVariable("tipOsiguranjaId") Long tipOsiguranjaId){
 		List<TipAtributa> tipAtributa = restTemplate.getForObject(databaseUri.getDatabaseUri()+"/tipoviAtributa/zaTipOsiguranja/"+tipOsiguranjaId, List.class);
 		return new ResponseEntity<List<TipAtributa>>(tipAtributa,HttpStatus.OK);
 	}
+	
+	@SuppressWarnings("unchecked")
+	@GetMapping("/zaKontekst/{kontekstAtributaId}")
+	@ResponseBody
+	public ResponseEntity<List<TipAtributa>> getTipoviAtributaZaKontekstAtributa(@PathVariable("kontekstAtributaId") Long kontekstAtributaId){
+		List<TipAtributa> tipAtributa = restTemplate.getForObject(databaseUri.getDatabaseUri()+"/tipoviAtributa/zaKontekst/"+kontekstAtributaId, List.class);
+		return new ResponseEntity<List<TipAtributa>>(tipAtributa,HttpStatus.OK);
+	}
+	
 }

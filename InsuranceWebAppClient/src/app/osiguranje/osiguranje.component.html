@@ -1,0 +1,16 @@
+<div class="container">
+  <form>
+    <div *ngFor = "let tipAtributa of tipoviAtributa">
+      <div *ngIf="redniBroj == tipAtributa.kontekst.redniBrojForme">
+        <label>{{tipAtributa.naziv}}</label>
+          <input [type]="tipAtributa.domen" *ngIf="predefinisaneVrednosti.get(tipAtributa.id).length == 0">
+          <select *ngIf="predefinisaneVrednosti.get(tipAtributa.id).length != 0"> <!-- BUNI SE ZA LENGTH ali radi-->
+            <option *ngFor = "let predefinisanaVrednost of predefinisaneVrednosti.get(tipAtributa.id)">{{predefinisanaVrednost.konkretnaVrednost}}</option>
+          </select>
+        </div>
+    </div>
+  </form>
+  <button (click) = "decrementKontekstNumber()">Prethodna</button>
+  <button (click) = "poruci()">Poruci</button>
+  <button (click) = "incrementKontekstNumber()">Sledeca</button>
+</div>

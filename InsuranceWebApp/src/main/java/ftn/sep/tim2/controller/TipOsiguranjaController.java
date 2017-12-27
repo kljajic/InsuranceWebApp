@@ -23,11 +23,17 @@ public class TipOsiguranjaController {
 	@Autowired
 	private RestTemplate restTemplate;
 	
+	@GetMapping("/{tipOsiguranjaId}")
+	@ResponseBody
+	public TipOsiguranja getTipOsiguranja(@PathVariable("tipOsiguranjaId")Long tipOsiguranjaId) {
+		return restTemplate.getForObject(databaseUri.getDatabaseUri() + "/tipoviOsiguranja/" + tipOsiguranjaId, TipOsiguranja.class);
+	}
+	
 	@SuppressWarnings("unchecked")
-	@GetMapping("/{osiguravajucaKucaId}")
+	@GetMapping("/zaOsiguravajucuKucu/{osiguravajucaKucaId}")
 	@ResponseBody
 	public List<TipOsiguranja> getTipoviOsiguranja(@PathVariable("osiguravajucaKucaId") Long osiguravajucaKucaId){
-		return restTemplate.getForObject(databaseUri.getDatabaseUri()+"/tipoviOsiguranja/"+osiguravajucaKucaId, List.class);
+		return restTemplate.getForObject(databaseUri.getDatabaseUri()+"/tipoviOsiguranja/zaOsiguravajucuKucu/"+osiguravajucaKucaId, List.class);
 	}
 
 }
