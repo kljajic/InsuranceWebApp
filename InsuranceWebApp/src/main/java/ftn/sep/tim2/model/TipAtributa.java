@@ -11,6 +11,8 @@ public class TipAtributa implements Serializable{
 	private String naziv;
 	private DomenAtributa domen;
 	private Boolean obavezan;
+	private Boolean uticeNaCenu;
+	private Boolean slobodnoPolje;
 	private KontekstAtributa kontekst;
 	private List<PredefinisanaVrednost> predefinisaneVrednosti;
 	private List<VrednostAtributaOsiguranja> vrednostiAtributa;
@@ -49,6 +51,22 @@ public class TipAtributa implements Serializable{
 
 	public void setObavezan(Boolean obavezan) {
 		this.obavezan = obavezan;
+	}
+
+	public Boolean getUticeNaCenu() {
+		return uticeNaCenu;
+	}
+
+	public void setUticeNaCenu(Boolean uticeNaCenu) {
+		this.uticeNaCenu = uticeNaCenu;
+	}
+
+	public Boolean getSlobodnoPolje() {
+		return slobodnoPolje;
+	}
+
+	public void setSlobodnoPolje(Boolean slobodnoPolje) {
+		this.slobodnoPolje = slobodnoPolje;
 	}
 
 	public KontekstAtributa getKontekst() {

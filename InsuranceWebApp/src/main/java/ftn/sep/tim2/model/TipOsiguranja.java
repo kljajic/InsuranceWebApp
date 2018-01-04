@@ -14,6 +14,7 @@ public class TipOsiguranja implements Serializable{
 	private OsiguravajucaKuca osiguravajucaKuca;
 	private List<Osiguranje> osiguranja;
 	private List<TipAtributa> tipoviAtributa;
+	private List<KontekstAtributa> konteksti;
 	
 	public TipOsiguranja() {}
 	
@@ -69,6 +70,14 @@ public class TipOsiguranja implements Serializable{
 	
 	public void setTipoviAtributa(List<TipAtributa> tipoviAtributa) {
 		this.tipoviAtributa = tipoviAtributa;
+	}
+
+	public List<KontekstAtributa> getKonteksti() {
+		return konteksti;
+	}
+
+	public void setKonteksti(List<KontekstAtributa> konteksti) {
+		this.konteksti = konteksti;
 	}
 	
 }

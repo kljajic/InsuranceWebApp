@@ -24,6 +24,12 @@ export class OsiguranjeService {
       .catch(this.handleError);
   }
 
+  getKontekstiAtributaZaTipOsiguranja(tipOsiguranjaId: number): Promise<KontekstAtributa[]>{
+    return this.http.get('/api/kontekstiAtributa/zaTipOsiguranja/' + tipOsiguranjaId).toPromise()
+      .then(response => response.json() as KontekstAtributa[])
+      .catch(this.handleError);
+  }
+
   getTipoviAtributaZaTipOsiguranja(tipOsiguranjaId: number): Promise<TipAtributa[]> {
     return this.http.get('/api/tipoviAtributa/zaTipOsiguranja/' + tipOsiguranjaId)
       .toPromise()

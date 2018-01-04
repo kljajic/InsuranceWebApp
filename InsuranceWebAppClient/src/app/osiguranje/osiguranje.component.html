@@ -1,16 +1,31 @@
-<div class="container">
-  <form>
-    <div *ngFor = "let tipAtributa of tipoviAtributa">
-      <div *ngIf="redniBroj == tipAtributa.kontekst.redniBrojForme">
-        <label>{{tipAtributa.naziv}}</label>
-          <input [type]="tipAtributa.domen" *ngIf="predefinisaneVrednosti.get(tipAtributa.id).length == 0">
-          <select *ngIf="predefinisaneVrednosti.get(tipAtributa.id).length != 0"> <!-- BUNI SE ZA LENGTH ali radi-->
+<button type="button" class="btn btn-primary" (click)="openModal(modal)">Kupi online</button>
+
+<!-- Modal -->
+<ng-template #modal>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">{{tipOsiguranja?.naziv}}</h4>
+        <button type="button" class="close pull-right" 
+                aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="form-group" *ngFor = "let tipAtributa of tipoviAtributa.get(redniBrojKonteksta)">
+          <input type = "radio" *ngIf = "tipAtributa.kontekst.predstavljaGrupu" [name] = "tipAtributa.kontekst.naziv" [value] = "tipAtributa.naziv" [(ngModel)]="choosenItem" (click) = 'removeSelection()'/>
+          <label>{{tipAtributa.naziv}} <label *ngIf = "tipAtributa.obavezan">*</label></label>
+          <input [id] = "tipAtributa.id" class="form-control" [type] = "tipAtributa.domen" *ngIf = "tipAtributa.slobodnoPolje" (input) = "enteredValue($event)" [value] = "vrednostiAtributa.get(tipAtributa.id).vrednost">
+          <select [id] = "tipAtributa.id" class="form-control" *ngIf = "!tipAtributa.slobodnoPolje" [disabled] = "tipAtributa.kontekst.predstavljaGrupu == true && tipAtributa.naziv != choosenItem" (change) = "enteredValue($event)" [value] = "vrednostiAtributa.get(tipAtributa.id).vrednost">
+            <option selected></option>
             <option *ngFor = "let predefinisanaVrednost of predefinisaneVrednosti.get(tipAtributa.id)">{{predefinisanaVrednost.konkretnaVrednost}}</option>
           </select>
         </div>
+      </form>      
     </div>
-  </form>
-  <button (click) = "decrementKontekstNumber()">Prethodna</button>
-  <button (click) = "poruci()">Poruci</button>
-  <button (click) = "incrementKontekstNumber()">Sledeca</button>
-</div>
+    <div class="modal-footer">
+      <button *ngIf = "redniBrojKonteksta > 1" class = "btn btn-warning" (click) = "decrementKontekstNumber()">Prethodna</button>
+      <button class = "btn btn-success" (click) = "poruci()">Poruci</button>
+      <button class = "btn btn-primary" (click) = "incrementKontekstNumber()">Sledeca</button>
+      <button type = "button" class = "btn btn-default" (click) = "modalRef.hide()">Close</button>
+    </div>
+</ng-template>

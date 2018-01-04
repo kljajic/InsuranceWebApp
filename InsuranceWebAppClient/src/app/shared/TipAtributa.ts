@@ -9,6 +9,8 @@ export class TipAtributa{
     naziv: string;
     domen: DomenAtributa;
     obavezan: boolean;
+    uticeNaCenu: boolean;
+    slobodnoPolje: boolean;
     kontekst: KontekstAtributa;
     predefinisaneVrednosti: PredefinisanaVrednost[];
     vrednostiAtributa: VrednostAtributaOsiguranja[];

@@ -5,5 +5,6 @@ export class KontekstAtributa{
     naziv: string;
     visestrukoDodavanje: boolean;
     redniBrojForme: number;
+    predstavljaGrupu: boolean;
     tipoviAtributa: TipAtributa[];
 };
