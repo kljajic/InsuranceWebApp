@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { TemplateRef } from '@angular/core/src/linker/template_ref';
 import { OsiguranjeService } from '../services/osiguranje.service';
@@ -9,6 +9,7 @@ import { PredefinisanaVrednost } from '../shared/PredefinisanaVrednost';
 import { KontekstAtributa } from '../shared/KontekstAtributa';
 import { VrednostAtributaOsiguranja } from '../shared/VrednostAtributaOsiguranja';
 import { Osiguranje } from '../shared/Osiguranje';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-osiguranje-modal',
@@ -17,16 +18,16 @@ import { Osiguranje } from '../shared/Osiguranje';
 })
 export class OsiguranjeComponent implements OnInit {
 
+  @Input('childData') public tipOsiguranja: TipOsiguranja;
+
   public modalRef: BsModalRef;
 
   choosenItem: string = '';
   redniBrojKonteksta: number = 1;
-  tipOsiguranja: TipOsiguranja;
   konteksti: KontekstAtributa[];
   tipoviAtributa: Map<number, TipAtributa[]>; //KEY: redniBrojKonteksta, VALUE: TipAtributa[] (kontekstu sa ID pripadaju atributi)
   predefinisaneVrednosti: Map<number, PredefinisanaVrednost[]>; //KEY: tipAtributaId, VALUE: PredefinisanaVrednost[]
 
-  osiguranje: Osiguranje;
   vrednostiAtributa: Map<number,VrednostAtributaOsiguranja>; //KEY: tipAtributaId, VALUE: VrednostAtributa
 
   constructor(private osiguranjeService: OsiguranjeService, private modalService: BsModalService) {
@@ -36,15 +37,11 @@ export class OsiguranjeComponent implements OnInit {
   }
 
   public openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template); // {3}
+    this.modalRef = this.modalService.show(template);
   }
 
   ngOnInit() {
-    let tipOsiguranjaId = 3;
-    this.osiguranjeService.getTipOsiguranja(tipOsiguranjaId).then(response => {
-        this.tipOsiguranja = response;
-        this.getKontekstiZaTipOsiguranja(tipOsiguranjaId);
-    }); 
+    this.getKontekstiZaTipOsiguranja(this.tipOsiguranja.id);
   }
 
   getKontekstiZaTipOsiguranja(tipOsiguranjaId: number){
@@ -67,26 +64,27 @@ export class OsiguranjeComponent implements OnInit {
             this.tipoviAtributa.set(redniBrojForme, atributi);
             for(index = 0; index < atributi.length; index++){
               if(!atributi[index].slobodnoPolje){
-                this.getPredefinisaneVrednosti(atributi[index].id);
+                this.getPredefinisaneVrednosti(atributi[index]);
+              }else{
+                this.initializeVrednostAtributa(atributi[index], '');
               }
             }
-            this.initializeVrednostiAtributa(redniBrojForme);
       });
   }
 
-  getPredefinisaneVrednosti(tipAtributaId: number) {
-    this.osiguranjeService.getPredefinisaneVrednostiZaTipAtributa(tipAtributaId)
-      .then(response => this.predefinisaneVrednosti.set(tipAtributaId, response));
+  getPredefinisaneVrednosti(tipAtributa: TipAtributa) {
+    this.osiguranjeService.getPredefinisaneVrednostiZaTipAtributa(tipAtributa.id)
+      .then(response => {
+                          this.predefinisaneVrednosti.set(tipAtributa.id, response)
+                          this.initializeVrednostAtributa(tipAtributa, response[0].konkretnaVrednost);
+                        });
   }
 
-  initializeVrednostiAtributa(redniBrojForme:number) {
-    var atributi:TipAtributa[] = this.tipoviAtributa.get(redniBrojForme);
-    for(var index in atributi){
-      var vrednostAtributa: VrednostAtributaOsiguranja = new VrednostAtributaOsiguranja();
-      vrednostAtributa.tipAtributa = atributi[index];
-      vrednostAtributa.vrednost = '';
-      this.vrednostiAtributa.set(atributi[index].id,vrednostAtributa);
-    }
+  initializeVrednostAtributa(tipAtributa: TipAtributa, vrednost: string) {
+    var vrednostAtributa: VrednostAtributaOsiguranja = new VrednostAtributaOsiguranja();
+    vrednostAtributa.tipAtributa = tipAtributa;
+    vrednostAtributa.vrednost = vrednost;
+    this.vrednostiAtributa.set(tipAtributa.id,vrednostAtributa);
   }
 
   incrementKontekstNumber(){
@@ -119,7 +117,7 @@ export class OsiguranjeComponent implements OnInit {
   removeSelection(tipAtributaId){
     var atributi: TipAtributa[] = this.tipoviAtributa.get(this.redniBrojKonteksta);
     for(var index in atributi){
-      this.vrednostiAtributa.get(atributi[index].id).vrednost = "";
+      this.vrednostiAtributa.get(atributi[index].id).vrednost = this.predefinisaneVrednosti.get(atributi[index].id)[0].konkretnaVrednost;
     }
   }
 

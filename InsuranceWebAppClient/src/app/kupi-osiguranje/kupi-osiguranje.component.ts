@@ -19,9 +19,8 @@ export class KupiOsiguranjeComponent implements OnInit {
               
    }
 
-  
   ngOnInit() {
-    this.osiguravajuceKuceService.currentId.subscribe(id => {console.log(id); this.getTipoviOsiguranja(id)} );
+    this.osiguravajuceKuceService.currentId.subscribe(id => this.getTipoviOsiguranja(id) );
   }
 
   getTipoviOsiguranja(id){

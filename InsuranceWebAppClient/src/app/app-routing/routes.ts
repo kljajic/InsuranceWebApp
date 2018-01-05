@@ -9,6 +9,6 @@ export const routes: Routes = [
     { path: 'osiguravajuceKuce', component: OsiguravajuceKuceComponent },
     { path: 'osiguravajucaKuca/:id', component: OsiguravajucaKucaComponent },
     { path: 'kupiOsiguranje', component: KupiOsiguranjeComponent },
-    { path: 'oNama', component: ONamaComponent },
+    { path: 'oNama/:id', component: ONamaComponent },
     { path: '', redirectTo: '/osiguravajuceKuce', pathMatch: 'full'}
 ];

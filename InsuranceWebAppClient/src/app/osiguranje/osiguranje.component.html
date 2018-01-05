@@ -16,16 +16,15 @@
           <label>{{tipAtributa.naziv}} <label *ngIf = "tipAtributa.obavezan">*</label></label>
           <input [id] = "tipAtributa.id" class="form-control" [type] = "tipAtributa.domen" *ngIf = "tipAtributa.slobodnoPolje" (input) = "enteredValue($event)" [value] = "vrednostiAtributa.get(tipAtributa.id).vrednost">
           <select [id] = "tipAtributa.id" class="form-control" *ngIf = "!tipAtributa.slobodnoPolje" [disabled] = "tipAtributa.kontekst.predstavljaGrupu == true && tipAtributa.naziv != choosenItem" (change) = "enteredValue($event)" [value] = "vrednostiAtributa.get(tipAtributa.id).vrednost">
-            <option selected></option>
             <option *ngFor = "let predefinisanaVrednost of predefinisaneVrednosti.get(tipAtributa.id)">{{predefinisanaVrednost.konkretnaVrednost}}</option>
           </select>
         </div>
       </form>      
     </div>
     <div class="modal-footer">
-      <button *ngIf = "redniBrojKonteksta > 1" class = "btn btn-warning" (click) = "decrementKontekstNumber()">Prethodna</button>
-      <button class = "btn btn-success" (click) = "poruci()">Poruci</button>
-      <button class = "btn btn-primary" (click) = "incrementKontekstNumber()">Sledeca</button>
       <button type = "button" class = "btn btn-default" (click) = "modalRef.hide()">Close</button>
+      <button *ngIf = "redniBrojKonteksta > 1" class = "btn btn-warning" (click) = "decrementKontekstNumber()">Prethodna</button>
+      <button class = "btn btn-success" *ngIf = "tipOsiguranja?.brojFormi == redniBrojKonteksta" (click) = "poruci()">Poruci</button>
+      <button class = "btn btn-primary" *ngIf = "redniBrojKonteksta < tipOsiguranja?.brojFormi" (click) = "incrementKontekstNumber()">Sledeca</button>
     </div>
 </ng-template>
