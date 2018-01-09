@@ -1,7 +1,6 @@
 package ftn.sep.tim2.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 public class TipAtributa implements Serializable{
@@ -14,6 +13,7 @@ public class TipAtributa implements Serializable{
 	private Boolean uticeNaCenu;
 	private Boolean slobodnoPolje;
 	private KontekstAtributa kontekst;
+	private List<KontrolniAtribut> kontrolniAtributi;
 	private List<PredefinisanaVrednost> predefinisaneVrednosti;
 	private List<VrednostAtributaOsiguranja> vrednostiAtributa;
 	private List<TipOsiguranja> tipoviOsiguranja;
@@ -77,10 +77,15 @@ public class TipAtributa implements Serializable{
 		this.kontekst = kontekst;
 	}
 
+	public List<KontrolniAtribut> getKontrolniAtributi() {
+		return kontrolniAtributi;
+	}
+
+	public void setKontrolniAtributi(List<KontrolniAtribut> kontrolniAtributi) {
+		this.kontrolniAtributi = kontrolniAtributi;
+	}
+
 	public List<PredefinisanaVrednost> getPredefinisaneVrednosti() {
-		if(predefinisaneVrednosti == null) {
-			predefinisaneVrednosti = new ArrayList<>();
-		}
 		return predefinisaneVrednosti;
 	}
 
@@ -89,9 +94,6 @@ public class TipAtributa implements Serializable{
 	}
 
 	public List<VrednostAtributaOsiguranja> getVrednostiAtributa() {
-		if(vrednostiAtributa == null) {
-			vrednostiAtributa = new ArrayList<>();
-		}
 		return vrednostiAtributa;
 	}
 
@@ -100,9 +102,6 @@ public class TipAtributa implements Serializable{
 	}
 
 	public List<TipOsiguranja> getTipoviOsiguranja() {
-		if(tipoviOsiguranja == null) {
-			tipoviOsiguranja = new ArrayList<>();
-		}
 		return tipoviOsiguranja;
 	}
 
