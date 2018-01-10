@@ -6,4 +6,9 @@ export class VrednostAtributaOsiguranja{
     vrednost: string;
     tipAtributa: TipAtributa;
     osiguranje: Osiguranje;
+
+    constructor(vrednost: string,tipAtributa: TipAtributa){
+        this.vrednost = vrednost;
+        this.tipAtributa = tipAtributa;
+    }
 };

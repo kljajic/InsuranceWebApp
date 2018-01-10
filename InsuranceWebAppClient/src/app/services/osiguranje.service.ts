@@ -1,3 +1,4 @@
+import { KontrolniAtribut } from './../shared/KontrolniAtribut';
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -49,6 +50,13 @@ export class OsiguranjeService {
       .toPromise()
       .then(response => response.json() as PredefinisanaVrednost[])
       .catch(this.handleError);
+  }
+
+  getKontrolniAtributZaKontekst(kontekstAtributaId: number): Promise<KontrolniAtribut>{
+    return this.http.get('/api/kontrolniAtributi/zaKontekstAtributa/' + kontekstAtributaId)
+    .toPromise()
+    .then(response => response.json() as KontrolniAtribut)
+    .catch(this.handleError);
   }
 
   private handleError(error: any): Promise<any>{
