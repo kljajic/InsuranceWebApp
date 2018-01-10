@@ -59,6 +59,13 @@ export class OsiguranjeService {
     .catch(this.handleError);
   }
 
+  postOsiguranje(osiguranje: Osiguranje,tipOsiguranjaId: number): Promise<Osiguranje>{
+    return this.http.post('/api/osiguranja/' + tipOsiguranjaId, osiguranje)
+    .toPromise()
+    .then(response => response.json() as Osiguranje)
+    .catch(this.handleError);
+  }
+
   private handleError(error: any): Promise<any>{
     console.error("An error occured: ", error);
     return Promise.reject(error.message || error);

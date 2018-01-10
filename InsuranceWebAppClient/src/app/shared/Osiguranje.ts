@@ -4,7 +4,10 @@ import { VrednostAtributaOsiguranja } from "./VrednostAtributaOsiguranja";
 
 export class Osiguranje{
     id: number;
-    polisa: Polisa;
     tipOsiguranja: TipOsiguranja;
     vrednostiAtributaOsiguranja: VrednostAtributaOsiguranja[];
+
+    public constructor(){
+        this.vrednostiAtributaOsiguranja = new Array();
+    }
 };

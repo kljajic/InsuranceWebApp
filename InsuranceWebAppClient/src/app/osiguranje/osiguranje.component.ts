@@ -30,6 +30,7 @@ export class OsiguranjeComponent implements OnInit {
   predefinisaneVrednosti: Map<number, PredefinisanaVrednost[]>; //KEY: tipAtributaId, VALUE: PredefinisanaVrednost[]
   kontrolniAtributi: Map<number, KontrolniAtribut>;
   ponavljajuciAtributi: Array<number>;
+  osiguranje: Osiguranje;
   
   vrednostiAtributa: Map<number,VrednostAtributaOsiguranja[]>; //KEY: tipAtributaId, VALUE: VrednostAtributa
 
@@ -40,6 +41,7 @@ export class OsiguranjeComponent implements OnInit {
       this.konteksti = new Map();
       this.kontrolniAtributi = new Map();
       this.ponavljajuciAtributi = new Array();
+      this.osiguranje = new Osiguranje();
   }
 
   public openModal(template: TemplateRef<any>) {
@@ -137,17 +139,16 @@ export class OsiguranjeComponent implements OnInit {
   }
 
   poruci(){
-    console.log(this.vrednostiAtributa);
+    for(let listaAtributa of Array.from(this.vrednostiAtributa.values())){
+      this.osiguranje.vrednostiAtributaOsiguranja.push.apply(this.osiguranje.vrednostiAtributaOsiguranja,listaAtributa);
+    }
+    this.osiguranjeService.postOsiguranje(this.osiguranje,this.tipOsiguranja.id);
+    this.modalRef.hide();
   }
 
   enteredValue($event,tipAtributa: TipAtributa,index: number){
-    if(!tipAtributa.kontekst.visestrukoDodavanje){
-      this.vrednostiAtributa.get(tipAtributa.id)[index].vrednost = $event.target.value;
-      console.log(this.vrednostiAtributa.get(tipAtributa.id)[index]);
-    } else {
-      this.vrednostiAtributa.get(tipAtributa.id)[index].vrednost = $event.target.value;
-      console.log(this.vrednostiAtributa.get(tipAtributa.id)[index]);
-    }
+    this.vrednostiAtributa.get(tipAtributa.id)[index].vrednost = $event.target.value;
+    console.log(this.vrednostiAtributa.get(tipAtributa.id)[index]);
   }
 
   removeSelection(tipAtributaId){
