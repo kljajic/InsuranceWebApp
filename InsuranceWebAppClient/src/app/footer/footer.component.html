@@ -1,14 +1,20 @@
 <div *ngIf="currentState">
-  <p>
-    footer works!
-  </p>
+  <footer class="footer">
+    <div class="container">
+        <div class="pull-right">
+            <span class="text-muted">{{osiguravajucaKuca?.naziv}} osiguranje</span><br>
+            <span class="text-muted">{{osiguravajucaKuca?.adresa }}, {{ osiguravajucaKuca?.mesto }} </span><br>
+            <span class="text-muted">{{osiguravajucaKuca?.telefon}}.</span>
+        </div>
+    </div>
+  </footer>
 </div>
 
 <div *ngIf="!currentState">
     <footer class="navbar-default navbar-fixed-bottom center-text">
       <div class="container-fluid">
         <div class="pull-right">
-            Copyright blabla... 
+            SEP projekat. All rights reserved... 
         </div>
       </div>
   </footer>

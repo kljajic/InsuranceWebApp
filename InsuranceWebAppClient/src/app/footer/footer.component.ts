@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+import { OsiguravajucaKuca } from '../shared/OsiguravajucaKuca';
 import { OsiguravajuceKuceService } from '../services/osiguravajuce-kuce.service';
 
 @Component({
@@ -10,11 +11,18 @@ import { OsiguravajuceKuceService } from '../services/osiguravajuce-kuce.service
 export class FooterComponent implements OnInit {
 
   currentState: boolean;
+  osiguravajucaKuca: OsiguravajucaKuca;  
 
-  constructor(private osiguravajuceKuceService: OsiguravajuceKuceService) { }
+  constructor(private osiguravajuceKuceService: OsiguravajuceKuceService) { 
+    this.osiguravajuceKuceService.getCurrentId.subscribe(id=>this.findInsuranceCompanyById(id));    
+  }
 
   ngOnInit() {
     this.osiguravajuceKuceService.currentState.subscribe(currentState => this.currentState = currentState);
+  }
+
+  findInsuranceCompanyById(id){
+    this.osiguravajuceKuceService.getOsiguravajucaKuca(id).then(osiguravajucaKuca => this.osiguravajucaKuca = osiguravajucaKuca);
   }
 
 }

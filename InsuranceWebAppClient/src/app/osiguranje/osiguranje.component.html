@@ -14,17 +14,17 @@
         <div *ngIf = "!konteksti.get(redniBrojKonteksta).visestrukoDodavanje">
           <div class="form-group" *ngFor = "let tipAtributa of tipoviAtributa.get(redniBrojKonteksta)">
             <input type = "radio" *ngIf = "tipAtributa.kontekst.predstavljaGrupu" [name] = "tipAtributa.kontekst.naziv" [value] = "tipAtributa.naziv" [(ngModel)]="choosenItem" (click) = 'removeSelection()'/>
-            <label>{{tipAtributa.naziv}} <label *ngIf = "tipAtributa.obavezan">*</label></label>
+            <label>{{tipAtributa.naziv}}<label *ngIf = "tipAtributa.obavezan">*</label></label>
             <input  class="form-control" [type] = "tipAtributa.domen" *ngIf = "tipAtributa.slobodnoPolje" (input) = "enteredValue($event,tipAtributa,0)" [value] = "vrednostiAtributa.get(tipAtributa.id)[0].vrednost">
             <select class="form-control" *ngIf = "!tipAtributa.slobodnoPolje" [disabled] = "tipAtributa.kontekst.predstavljaGrupu == true && tipAtributa.naziv != choosenItem" (change) = "enteredValue($event,tipAtributa,0)" [value] = "vrednostiAtributa.get(tipAtributa.id)[0].vrednost">
               <option *ngFor = "let predefinisanaVrednost of predefinisaneVrednosti.get(tipAtributa.id)">{{predefinisanaVrednost.konkretnaVrednost}}</option>
-            </select>
+            </select> 
           </div>
         </div>
         <div *ngIf = "konteksti.get(redniBrojKonteksta).visestrukoDodavanje">
           <div *ngFor="let ponavljajuciAtribut of ponavljajuciAtributi; let myIndex = index">
             <div class="form-group" *ngFor = "let tipAtributa of tipoviAtributa.get(redniBrojKonteksta)">
-              <label>{{tipAtributa.naziv}} <label *ngIf = "tipAtributa.obavezan">*</label></label>
+              <label>{{tipAtributa.naziv}}<label *ngIf = "tipAtributa.obavezan">*</label></label>
               <input class="form-control" [type] = "tipAtributa.domen" *ngIf = "tipAtributa.slobodnoPolje" (input) = "enteredValue($event,tipAtributa,myIndex)" [value] = "vrednostiAtributa.get(tipAtributa.id)[myIndex].vrednost">
             </div>
             <hr/>
