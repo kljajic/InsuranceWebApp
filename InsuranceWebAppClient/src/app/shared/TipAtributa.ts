@@ -12,6 +12,9 @@ export class TipAtributa{
     obavezan: boolean;
     uticeNaCenu: boolean;
     slobodnoPolje: boolean;
+    regex: string;
+    minimalnaDuzina: number;
+    maksimalnaDuzina: number;
     kontekst: KontekstAtributa;
     kontrolniAtributi: KontrolniAtribut[];
     predefinisaneVrednosti: PredefinisanaVrednost[];

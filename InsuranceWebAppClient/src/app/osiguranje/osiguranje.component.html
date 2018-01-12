@@ -3,20 +3,24 @@
 <!-- Modal -->
 <ng-template #modal>
     <div class="modal-header">
-        <h4 class="modal-title pull-left">{{tipOsiguranja?.naziv}}</h4>
+        <h3 class="modal-title pull-left">{{tipOsiguranja?.naziv}}</h3>
         <button type="button" class="close pull-right" 
                 aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
     </div>
     <div class="modal-body">
-      <form>
+      <blockquote class="blockquote bq-primary">
+        <p class="bq-tittle">{{ konteksti.get(redniBrojKonteksta).naziv }}</p>
+      </blockquote>
+      <form #myForm="ngForm" ngNativeValidate> 
+        <p>Validna: {{ myForm.valid }}</p>         
         <div *ngIf = "!konteksti.get(redniBrojKonteksta).visestrukoDodavanje">
           <div class="form-group" *ngFor = "let tipAtributa of tipoviAtributa.get(redniBrojKonteksta)">
-            <input type = "radio" *ngIf = "tipAtributa.kontekst.predstavljaGrupu" [name] = "tipAtributa.kontekst.naziv" [value] = "tipAtributa.naziv" [(ngModel)]="choosenItem" (click) = 'removeSelection()'/>
+            <input type = "radio" *ngIf = "tipAtributa.kontekst.predstavljaGrupu" [name] = "tipAtributa.kontekst.naziv" [value] = "tipAtributa.naziv" [(ngModel)]="choosenItem" (click) = 'removeSelection()' [required] = "tipAtributa.obavezan"/>
             <label>{{tipAtributa.naziv}}<label *ngIf = "tipAtributa.obavezan">*</label></label>
-            <input  class="form-control" [type] = "tipAtributa.domen" *ngIf = "tipAtributa.slobodnoPolje" (input) = "enteredValue($event,tipAtributa,0)" [value] = "vrednostiAtributa.get(tipAtributa.id)[0].vrednost">
-            <select class="form-control" *ngIf = "!tipAtributa.slobodnoPolje" [disabled] = "tipAtributa.kontekst.predstavljaGrupu == true && tipAtributa.naziv != choosenItem" (change) = "enteredValue($event,tipAtributa,0)" [value] = "vrednostiAtributa.get(tipAtributa.id)[0].vrednost">
+            <input  class="form-control" [type] = "tipAtributa.domen" *ngIf = "tipAtributa.slobodnoPolje" (input) = "enteredValue($event,tipAtributa,0)" [value] = "vrednostiAtributa.get(tipAtributa.id)[0].vrednost" [pattern]="tipAtributa.regex"  [required] = "tipAtributa.obavezan" >
+            <select class="form-control" *ngIf = "!tipAtributa.slobodnoPolje" [disabled] = "tipAtributa.kontekst.predstavljaGrupu == true && tipAtributa.naziv != choosenItem" (change) = "enteredValue($event,tipAtributa,0)" [value] = "vrednostiAtributa.get(tipAtributa.id)[0].vrednost" [required] = "tipAtributa.obavezan">
               <option *ngFor = "let predefinisanaVrednost of predefinisaneVrednosti.get(tipAtributa.id)">{{predefinisanaVrednost.konkretnaVrednost}}</option>
             </select> 
           </div>
@@ -30,12 +34,16 @@
             <hr/>
           </div>
         </div>
-      </form>      
-    </div>
-    <div class="modal-footer">
+    <!-- Uvesti za min length i max length na nivou reda [hidden].. -->
+    <!--<div class="modal-footer"> -->
       <button type = "button" class = "btn btn-default" (click) = "modalRef.hide()">Close</button>
       <button *ngIf = "redniBrojKonteksta > 1" class = "btn btn-warning" (click) = "decrementKontekstNumber()">Prethodna</button>
       <button class = "btn btn-success" *ngIf = "tipOsiguranja?.brojFormi == redniBrojKonteksta" (click) = "poruci()">Poruci</button>
       <button class = "btn btn-primary" *ngIf = "redniBrojKonteksta < tipOsiguranja?.brojFormi" (click) = "incrementKontekstNumber()">Sledeca</button>
-    </div>
+    <!--</div> 
+    [disabled]=!myForm.form.valid type="submit"
+    -->
+  </form>      
+  </div>
+
 </ng-template>

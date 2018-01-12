@@ -108,8 +108,34 @@ export class OsiguranjeComponent implements OnInit {
     this.vrednostiAtributa.set(tipAtributa.id,vrednosti);
   }
 
+  validateTipoveAtributa() : boolean{
+    let tipoviAtributa: TipAtributa[] = this.tipoviAtributa.get(this.redniBrojKonteksta);  
+    let validnaForma = true;
+
+    for(let i = 0; i < tipoviAtributa.length; i++){
+      let vrednostAtributa = this.vrednostiAtributa.get(tipoviAtributa[i].id)[0];
+      if(vrednostAtributa.tipAtributa.obavezan && vrednostAtributa.vrednost == ""){
+        validnaForma = false;
+        break;
+      }
+      let regexBackend = RegExp(vrednostAtributa.tipAtributa.regex);
+      validnaForma = regexBackend.test(vrednostAtributa.vrednost);
+      if(vrednostAtributa.tipAtributa.minimalnaDuzina > vrednostAtributa.vrednost.length || 
+        vrednostAtributa.tipAtributa.maksimalnaDuzina < vrednostAtributa.vrednost.length ){
+            validnaForma = false;
+            break;
+        }
+    
+      //console.log(vrednostAtributa);
+    }
+    return validnaForma;
+  }
+
   incrementKontekstNumber(){
     if(this.tipOsiguranja.brojFormi == this.redniBrojKonteksta){
+      return;
+    }
+    if(!this.validateTipoveAtributa() ){
       return;
     }
     this.redniBrojKonteksta++;
@@ -157,5 +183,7 @@ export class OsiguranjeComponent implements OnInit {
       this.vrednostiAtributa.get(atributi[index].id)[0].vrednost = this.predefinisaneVrednosti.get(atributi[index].id)[0].konkretnaVrednost;
     }
   }
+
+
 
 }
