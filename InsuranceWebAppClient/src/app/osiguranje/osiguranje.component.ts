@@ -34,6 +34,9 @@ export class OsiguranjeComponent implements OnInit {
   
   vrednostiAtributa: Map<number,VrednostAtributaOsiguranja[]>; //KEY: tipAtributaId, VALUE: VrednostAtributa
 
+  tipAtributaMaxArray = [];
+  tipAtributaMinArray = [];  
+
   constructor(private osiguranjeService: OsiguranjeService, private modalService: BsModalService) {
       this.tipoviAtributa = new Map();
       this.predefinisaneVrednosti = new Map();
@@ -80,9 +83,13 @@ export class OsiguranjeComponent implements OnInit {
             var index: number = 0;
             this.tipoviAtributa.set(redniBrojForme, atributi);
             for(index = 0; index < atributi.length; index++){
+              this.tipAtributaMaxArray.push(true);
+              this.tipAtributaMinArray.push(true);      
               if(!atributi[index].slobodnoPolje){
                 this.getPredefinisaneVrednosti(atributi[index]);
               }else{
+                //this.tipAtributaMaxArray.push(true);
+                //this.tipAtributaMinArray.push(true);                
                 this.initializeVrednostAtributa(atributi[index], '');
               }
             }
@@ -108,22 +115,37 @@ export class OsiguranjeComponent implements OnInit {
     this.vrednostiAtributa.set(tipAtributa.id,vrednosti);
   }
 
+  svi = 0;
+
   validateTipoveAtributa() : boolean{
     let tipoviAtributa: TipAtributa[] = this.tipoviAtributa.get(this.redniBrojKonteksta);  
     let validnaForma = true;
-
     for(let i = 0; i < tipoviAtributa.length; i++){
+      this.tipAtributaMaxArray[this.svi + i ] = true;
+      this.tipAtributaMinArray[this.svi + i] = true;
+    }
+    for(let i = 0; i < tipoviAtributa.length; i++){   
       let vrednostAtributa = this.vrednostiAtributa.get(tipoviAtributa[i].id)[0];
       if(vrednostAtributa.tipAtributa.obavezan && vrednostAtributa.vrednost == ""){
         validnaForma = false;
         break;
       }
-      let regexBackend = RegExp(vrednostAtributa.tipAtributa.regex);
-      validnaForma = regexBackend.test(vrednostAtributa.vrednost);
-      if(vrednostAtributa.tipAtributa.minimalnaDuzina > vrednostAtributa.vrednost.length || 
+      if(vrednostAtributa.tipAtributa.regex != null){
+        let regexBackend = RegExp(vrednostAtributa.tipAtributa.regex);
+        validnaForma = regexBackend.test(vrednostAtributa.vrednost);
+      }
+      if(vrednostAtributa.tipAtributa.maksimalnaDuzina != null &&
         vrednostAtributa.tipAtributa.maksimalnaDuzina < vrednostAtributa.vrednost.length ){
-            validnaForma = false;
-            break;
+          validnaForma = false;
+          this.tipAtributaMaxArray[this.svi + i] = false;
+          break;
+        }
+
+      if(vrednostAtributa.tipAtributa.minimalnaDuzina != null &&
+        vrednostAtributa.tipAtributa.minimalnaDuzina > vrednostAtributa.vrednost.length ){
+          validnaForma = false;
+          this.tipAtributaMinArray[this.svi + i] = false;
+          break;
         }
     
       //console.log(vrednostAtributa);
@@ -138,7 +160,11 @@ export class OsiguranjeComponent implements OnInit {
     if(!this.validateTipoveAtributa() ){
       return;
     }
+    //console.log("Svi inkrement pre: " + this.svi);
+    this.svi += this.tipoviAtributa.get(this.redniBrojKonteksta).length;    
     this.redniBrojKonteksta++;
+    console.log("Svi inkrement posle: " + this.svi);   
+    console.log("MAXLENGTH POSLE: " + this.tipAtributaMaxArray.length); 
     let kontekst = this.konteksti.get(this.redniBrojKonteksta);
     if(kontekst.visestrukoDodavanje){
       this.ponavljajuciAtributi.splice(0,this.ponavljajuciAtributi.length);
@@ -149,6 +175,12 @@ export class OsiguranjeComponent implements OnInit {
         this.vrednostiAtributa.get(tipoviAtributa[i].id).splice(0,this.vrednostiAtributa.get(tipoviAtributa[i].id).length);
       }
       for(let index = 0; index < brojac;index++){
+        if(index > 0){
+          for(let j = 0; j < tipoviAtributa.length; j++){
+            this.tipAtributaMaxArray.push(true);
+            this.tipAtributaMinArray.push(true);  
+            }
+          }
         this.ponavljajuciAtributi.push(1);
         for(let i = 0; i < tipoviAtributa.length;i++){
           this.vrednostiAtributa.get(tipoviAtributa[i].id).push(new VrednostAtributaOsiguranja('',tipoviAtributa[i]));
@@ -161,10 +193,72 @@ export class OsiguranjeComponent implements OnInit {
     if(this.redniBrojKonteksta == 1){
       return;
     }
+    let kontekst = this.konteksti.get(this.redniBrojKonteksta);    
+    if(kontekst.visestrukoDodavanje){
+      this.ponavljajuciAtributi.splice(0,this.ponavljajuciAtributi.length);
+      let kontrolniAtribut: KontrolniAtribut = this.kontrolniAtributi.get(kontekst.id);
+      let brojac: number = Number.parseInt(this.vrednostiAtributa.get(kontrolniAtribut.tipAtributa.id)[0].vrednost);
+      let tipoviAtributa: TipAtributa[] = this.tipoviAtributa.get(this.redniBrojKonteksta);
+      for(let i = 0; i < tipoviAtributa.length;i++){
+        this.vrednostiAtributa.get(tipoviAtributa[i].id).splice(0,this.vrednostiAtributa.get(tipoviAtributa[i].id).length);
+      }
+      console.log("MAXLENGTH PRE DEKREMENTA: " + this.tipAtributaMaxArray.length);              
+      for(let index = 0; index < brojac;index++){
+        if(index > 0){
+          for(let j = 0; j < tipoviAtributa.length; j++){
+            this.tipAtributaMaxArray.pop();
+            this.tipAtributaMinArray.pop();  
+            }
+          }
+        }
+      }
+    console.log("Svi dekrement pre: " + this.svi);    
+    this.svi -= this.tipoviAtributa.get(this.redniBrojKonteksta - 1).length;
+    console.log("Svi dekrementi posle: " + this.svi);
     this.redniBrojKonteksta--;
   }
 
+  validatePonavljajuceTipoveAtributa(): boolean{
+    let tipoviAtributa: TipAtributa[] = this.tipoviAtributa.get(this.redniBrojKonteksta);  
+    let validnaForma = true;
+    let ponavljanje = this.ponavljajuciAtributi.length;
+    //spoljna j, unutrasnja i !!!
+    hajd:
+    for(let j = 0; j < ponavljanje; j++){
+      for(let i = 0; i < tipoviAtributa.length; i++){
+        let vrednostAtributa = this.vrednostiAtributa.get(tipoviAtributa[i].id)[j];  
+        
+        if(vrednostAtributa.tipAtributa.obavezan && vrednostAtributa.vrednost == ""){
+          validnaForma = false;
+          break hajd;
+        }
+        if(vrednostAtributa.tipAtributa.regex != null){
+          let regexBackend = RegExp(vrednostAtributa.tipAtributa.regex);
+          validnaForma = regexBackend.test(vrednostAtributa.vrednost);
+        }
+        if(vrednostAtributa.tipAtributa.maksimalnaDuzina != null &&
+          vrednostAtributa.tipAtributa.maksimalnaDuzina < vrednostAtributa.vrednost.length ){
+            validnaForma = false;
+            this.tipAtributaMaxArray[this.svi + i + j*tipoviAtributa.length] = false;
+            break hajd;
+          }
+  
+        if(vrednostAtributa.tipAtributa.minimalnaDuzina != null &&
+          vrednostAtributa.tipAtributa.minimalnaDuzina > vrednostAtributa.vrednost.length ){
+            validnaForma = false;
+            this.tipAtributaMinArray[this.svi + i + j*tipoviAtributa.length] = false;
+            break hajd;
+          }
+      
+      }
+    }
+    return validnaForma;
+  }
+
   poruci(){
+    if(!this.validatePonavljajuceTipoveAtributa()){
+      return;
+    }
     for(let listaAtributa of Array.from(this.vrednostiAtributa.values())){
       this.osiguranje.vrednostiAtributaOsiguranja.push.apply(this.osiguranje.vrednostiAtributaOsiguranja,listaAtributa);
     }
@@ -174,7 +268,7 @@ export class OsiguranjeComponent implements OnInit {
 
   enteredValue($event,tipAtributa: TipAtributa,index: number){
     this.vrednostiAtributa.get(tipAtributa.id)[index].vrednost = $event.target.value;
-    console.log(this.vrednostiAtributa.get(tipAtributa.id)[index]);
+    //console.log(this.vrednostiAtributa.get(tipAtributa.id)[index]);
   }
 
   removeSelection(tipAtributaId){
