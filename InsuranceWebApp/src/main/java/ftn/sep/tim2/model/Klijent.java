@@ -18,7 +18,7 @@ public class Klijent implements Serializable{
 	private String adresa;
 	private String brojTelefona;
 	private String email;
-	private List<Polisa> polise;
+	private List<Osiguranje> osiguranja;
 	public Long getId() {
 		return id;
 	}
@@ -67,13 +67,13 @@ public class Klijent implements Serializable{
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public List<Polisa> getPolise() {
-		if(polise == null) {
-			return new ArrayList<Polisa>();
+	public List<Osiguranje> getOsiguranja() {
+		if(osiguranja == null) {
+			return new ArrayList<Osiguranje>();
 		}
-		return polise;
+		return osiguranja;
 	}
-	public void setPolise(List<Polisa> polise) {
-		this.polise = polise;
+	public void setOsiguranja(List<Osiguranje> osiguranja) {
+		this.osiguranja = osiguranja;
 	}
 }

@@ -9,7 +9,6 @@ public class Osiguranje implements Serializable{
 	private static final long serialVersionUID = -7663607432545399871L;
 	
 	private Long id;
-	private Polisa polisa;
 	private TipOsiguranja tipOsiguranja;
 	private List<VrednostAtributaOsiguranja> vrednostiAtributaOsiguranja;
 	
@@ -23,13 +22,6 @@ public class Osiguranje implements Serializable{
 		this.id = id;
 	}
 	
-	public Polisa getPolisa() {
-		return polisa;
-	}
-	
-	public void setPolisa(Polisa polisa) {
-		this.polisa = polisa;
-	}
 	
 	public TipOsiguranja getTipoviOsiguranja() {
 		return tipOsiguranja;
