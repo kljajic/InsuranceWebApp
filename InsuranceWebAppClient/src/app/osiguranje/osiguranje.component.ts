@@ -256,9 +256,17 @@ export class OsiguranjeComponent implements OnInit {
   }
 
   poruci(){
-    if(!this.validatePonavljajuceTipoveAtributa()){
-      return;
-    }
+    let kontekst = this.konteksti.get(this.redniBrojKonteksta);
+    if(kontekst.visestrukoDodavanje){
+      if(!this.validatePonavljajuceTipoveAtributa()){
+        return;
+      }
+    }  else {
+      if(!this.validateTipoveAtributa()){
+        return;
+      }
+    }  
+    
     for(let listaAtributa of Array.from(this.vrednostiAtributa.values())){
       this.osiguranje.vrednostiAtributaOsiguranja.push.apply(this.osiguranje.vrednostiAtributaOsiguranja,listaAtributa);
     }
