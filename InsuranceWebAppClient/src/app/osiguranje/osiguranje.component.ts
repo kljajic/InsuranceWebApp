@@ -270,8 +270,18 @@ export class OsiguranjeComponent implements OnInit {
     for(let listaAtributa of Array.from(this.vrednostiAtributa.values())){
       this.osiguranje.vrednostiAtributaOsiguranja.push.apply(this.osiguranje.vrednostiAtributaOsiguranja,listaAtributa);
     }
-    this.osiguranjeService.postOsiguranje(this.osiguranje,this.tipOsiguranja.id);
-    this.modalRef.hide();
+    this.osiguranjeService.postOsiguranje(this.osiguranje,this.tipOsiguranja.id).then(response => {
+      this.modalRef.hide();
+      window.open(response, "_blank");;
+    });
+   /* let lista :VrednostAtributaOsiguranja[];
+    for(let listaAtributa of Array.from(this.vrednostiAtributa.values())){
+      if(listaAtributa[0].tipAtributa.uticeNaCenu){
+        lista.push();
+        continue;
+      }
+      //saljem sajicu za dobijanje cene i otvaram novi modalni za unos nacin placanja
+    }*/
   }
 
   enteredValue($event,tipAtributa: TipAtributa,index: number){

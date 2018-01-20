@@ -10,6 +10,7 @@ public class Osiguranje implements Serializable{
 	
 	private Long id;
 	private TipOsiguranja tipOsiguranja;
+	private double iznos;
 	private List<VrednostAtributaOsiguranja> vrednostiAtributaOsiguranja;
 	
 	public Osiguranje() {}
@@ -40,6 +41,14 @@ public class Osiguranje implements Serializable{
 	
 	public void setVrednostiAtributaOsiguranja(List<VrednostAtributaOsiguranja> vrednostiAtributaOsiguranja) {
 		this.vrednostiAtributaOsiguranja = vrednostiAtributaOsiguranja;
+	}
+
+	public double getIznos() {
+		return iznos;
+	}
+
+	public void setIznos(double iznos) {
+		this.iznos = iznos;
 	}
 	
 }
