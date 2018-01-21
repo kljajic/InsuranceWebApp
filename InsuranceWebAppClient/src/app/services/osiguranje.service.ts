@@ -59,10 +59,10 @@ export class OsiguranjeService {
     .catch(this.handleError);
   }
 
-  postOsiguranje(osiguranje: Osiguranje,tipOsiguranjaId: number): Promise<Osiguranje>{
+  postOsiguranje(osiguranje: Osiguranje,tipOsiguranjaId: number): Promise<string>{
     return this.http.post('/api/osiguranja/' + tipOsiguranjaId, osiguranje)
     .toPromise()
-    .then(response => response.json() as Osiguranje)
+    .then(response => response.text() as string)
     .catch(this.handleError);
   }
 

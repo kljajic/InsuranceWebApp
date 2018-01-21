@@ -2,6 +2,7 @@ import { VrednostAtributaOsiguranja } from './../shared/VrednostAtributaOsiguran
 import { Component, OnInit, Input } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { TemplateRef } from '@angular/core/src/linker/template_ref';
+import {Location} from '@angular/common';
 import { OsiguranjeService } from '../services/osiguranje.service';
 
 import { TipAtributa } from '../shared/TipAtributa';
@@ -31,13 +32,14 @@ export class OsiguranjeComponent implements OnInit {
   kontrolniAtributi: Map<number, KontrolniAtribut>;
   ponavljajuciAtributi: Array<number>;
   osiguranje: Osiguranje;
+  location: Location;
   
   vrednostiAtributa: Map<number,VrednostAtributaOsiguranja[]>; //KEY: tipAtributaId, VALUE: VrednostAtributa
 
   tipAtributaMaxArray = [];
   tipAtributaMinArray = [];  
 
-  constructor(private osiguranjeService: OsiguranjeService, private modalService: BsModalService) {
+  constructor(private osiguranjeService: OsiguranjeService, private modalService: BsModalService,location: Location) {
       this.tipoviAtributa = new Map();
       this.predefinisaneVrednosti = new Map();
       this.vrednostiAtributa = new Map();
@@ -45,6 +47,7 @@ export class OsiguranjeComponent implements OnInit {
       this.kontrolniAtributi = new Map();
       this.ponavljajuciAtributi = new Array();
       this.osiguranje = new Osiguranje();
+      this.location = location;
   }
 
   public openModal(template: TemplateRef<any>) {
@@ -272,7 +275,7 @@ export class OsiguranjeComponent implements OnInit {
     }
     this.osiguranjeService.postOsiguranje(this.osiguranje,this.tipOsiguranja.id).then(response => {
       this.modalRef.hide();
-      window.open(response, "_blank");;
+      window.location.href = response;
     });
    /* let lista :VrednostAtributaOsiguranja[];
     for(let listaAtributa of Array.from(this.vrednostiAtributa.values())){
