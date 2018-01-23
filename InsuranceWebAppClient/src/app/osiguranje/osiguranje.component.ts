@@ -32,14 +32,16 @@ export class OsiguranjeComponent implements OnInit {
   kontrolniAtributi: Map<number, KontrolniAtribut>;
   ponavljajuciAtributi: Array<number>;
   osiguranje: Osiguranje;
-  location: Location;
   
   vrednostiAtributa: Map<number,VrednostAtributaOsiguranja[]>; //KEY: tipAtributaId, VALUE: VrednostAtributa
 
   tipAtributaMaxArray = [];
-  tipAtributaMinArray = [];  
+  tipAtributaMinArray = [];
+  
+  cenaOsiguranja: number;
+  prikazCeneOsiguranja: boolean;
 
-  constructor(private osiguranjeService: OsiguranjeService, private modalService: BsModalService,location: Location) {
+  constructor(private osiguranjeService: OsiguranjeService, private modalService: BsModalService) {
       this.tipoviAtributa = new Map();
       this.predefinisaneVrednosti = new Map();
       this.vrednostiAtributa = new Map();
@@ -47,7 +49,7 @@ export class OsiguranjeComponent implements OnInit {
       this.kontrolniAtributi = new Map();
       this.ponavljajuciAtributi = new Array();
       this.osiguranje = new Osiguranje();
-      this.location = location;
+      this.prikazCeneOsiguranja = false;
   }
 
   public openModal(template: TemplateRef<any>) {
@@ -108,9 +110,7 @@ export class OsiguranjeComponent implements OnInit {
   }
 
   initializeVrednostAtributa(tipAtributa: TipAtributa, vrednost: string) {
-
     var vrednosti: VrednostAtributaOsiguranja[] = new Array();
-
     if(!tipAtributa.kontekst.visestrukoDodavanje){
       var vrednostAtributa: VrednostAtributaOsiguranja = new VrednostAtributaOsiguranja(vrednost,tipAtributa);
       vrednosti.push(vrednostAtributa);
@@ -143,15 +143,12 @@ export class OsiguranjeComponent implements OnInit {
           this.tipAtributaMaxArray[this.svi + i] = false;
           break;
         }
-
       if(vrednostAtributa.tipAtributa.minimalnaDuzina != null &&
         vrednostAtributa.tipAtributa.minimalnaDuzina > vrednostAtributa.vrednost.length ){
           validnaForma = false;
           this.tipAtributaMinArray[this.svi + i] = false;
           break;
         }
-    
-      //console.log(vrednostAtributa);
     }
     return validnaForma;
   }
@@ -258,7 +255,7 @@ export class OsiguranjeComponent implements OnInit {
     return validnaForma;
   }
 
-  poruci(){
+  izracunajCenu(){
     let kontekst = this.konteksti.get(this.redniBrojKonteksta);
     if(kontekst.visestrukoDodavanje){
       if(!this.validatePonavljajuceTipoveAtributa()){
@@ -269,27 +266,29 @@ export class OsiguranjeComponent implements OnInit {
         return;
       }
     }  
-    
     for(let listaAtributa of Array.from(this.vrednostiAtributa.values())){
       this.osiguranje.vrednostiAtributaOsiguranja.push.apply(this.osiguranje.vrednostiAtributaOsiguranja,listaAtributa);
     }
-    this.osiguranjeService.postOsiguranje(this.osiguranje,this.tipOsiguranja.id).then(response => {
+    let vrednostiKojeUticuNaCenu :VrednostAtributaOsiguranja[] = new Array();
+    for(let vrednostAtributa of this.osiguranje.vrednostiAtributaOsiguranja){
+      if(vrednostAtributa.tipAtributa.uticeNaCenu){
+        vrednostiKojeUticuNaCenu.push(vrednostAtributa);
+      }
+    }
+    //saljem sajicu za dobijanje cene i otvaram novi modalni za unos nacin placanja
+    this.cenaOsiguranja = 10154.30;
+    this.prikazCeneOsiguranja = true;
+  }
+
+  poruciOsiguranje(tipUplate: string){
+    this.osiguranjeService.postOsiguranje(this.osiguranje,this.tipOsiguranja.id, tipUplate).then(response => {
       this.modalRef.hide();
       window.location.href = response;
     });
-   /* let lista :VrednostAtributaOsiguranja[];
-    for(let listaAtributa of Array.from(this.vrednostiAtributa.values())){
-      if(listaAtributa[0].tipAtributa.uticeNaCenu){
-        lista.push();
-        continue;
-      }
-      //saljem sajicu za dobijanje cene i otvaram novi modalni za unos nacin placanja
-    }*/
   }
 
   enteredValue($event,tipAtributa: TipAtributa,index: number){
     this.vrednostiAtributa.get(tipAtributa.id)[index].vrednost = $event.target.value;
-    //console.log(this.vrednostiAtributa.get(tipAtributa.id)[index]);
   }
 
   removeSelection(tipAtributaId){
@@ -299,6 +298,8 @@ export class OsiguranjeComponent implements OnInit {
     }
   }
 
-
+  prethodna() {
+    this.prikazCeneOsiguranja = false;
+  }
 
 }

@@ -1,7 +1,5 @@
 package ftn.sep.tim2.controller;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,10 +25,10 @@ public class OsiguranjeController {
 		this.databaseUri = databaseUri;
 	}
 	
-	@PostMapping("/{tipOsiguranjaId}")
+	@PostMapping("/{tipOsiguranjaId}/{tipUplate}")
 	@ResponseBody
-	public String createOsiguranje(@RequestBody Osiguranje osiguranje, @PathVariable("tipOsiguranjaId")Long tipOsiguranjaId,HttpServletResponse response) {
-		return restTemplate.postForObject(databaseUri.getDatabaseUri() + "/osiguranja/" + tipOsiguranjaId, osiguranje, String.class);
+	public String createOsiguranje(@RequestBody Osiguranje osiguranje, @PathVariable("tipOsiguranjaId")Long tipOsiguranjaId, @PathVariable("tipUplate")String tipUplate) {
+		return restTemplate.postForObject(databaseUri.getDatabaseUri() + "/osiguranja/" + tipOsiguranjaId + "/" + tipUplate, osiguranje, String.class);
 	}
 	
 }
