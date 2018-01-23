@@ -276,7 +276,9 @@ export class OsiguranjeComponent implements OnInit {
       }
     }
     //saljem sajicu za dobijanje cene i otvaram novi modalni za unos nacin placanja
-    this.cenaOsiguranja = 10154.30;
+    this.osiguranjeService.postCena(vrednostiKojeUticuNaCenu).then(response => {
+      this.cenaOsiguranja = response;
+    });
     this.prikazCeneOsiguranja = true;
   }
 

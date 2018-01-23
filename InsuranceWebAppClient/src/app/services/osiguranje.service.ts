@@ -8,6 +8,7 @@ import { TipOsiguranja } from '../shared/TipOsiguranja';
 import { TipAtributa } from '../shared/TipAtributa';
 import { KontekstAtributa } from '../shared/KontekstAtributa';
 import { PredefinisanaVrednost } from '../shared/PredefinisanaVrednost';
+import { VrednostAtributaOsiguranja } from '../shared/VrednostAtributaOsiguranja';
 
 import 'rxjs/add/operator/toPromise';
 import { Observable } from 'rxjs/Observable';
@@ -63,6 +64,13 @@ export class OsiguranjeService {
     return this.http.post('/api/osiguranja/' + tipOsiguranjaId + '/' + tipUplate, osiguranje)
     .toPromise()
     .then(response => response.text() as string)
+    .catch(this.handleError);
+  }
+
+  postCena(vrednostiKojeUticuNaCenu : VrednostAtributaOsiguranja[]): Promise<number>{
+    return this.http.post('/api/osiguranja/', vrednostiKojeUticuNaCenu)
+    .toPromise()
+    .then(response => response.json() as number)
     .catch(this.handleError);
   }
 
