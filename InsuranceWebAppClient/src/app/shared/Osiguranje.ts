@@ -5,6 +5,7 @@ import { VrednostAtributaOsiguranja } from "./VrednostAtributaOsiguranja";
 export class Osiguranje{
     id: number;
     tipOsiguranja: TipOsiguranja;
+    iznos: number;
     vrednostiAtributaOsiguranja: VrednostAtributaOsiguranja[];
 
     public constructor(){

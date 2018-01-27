@@ -112,7 +112,7 @@ export class OsiguranjeComponent implements OnInit {
   initializeVrednostAtributa(tipAtributa: TipAtributa, vrednost: string) {
     var vrednosti: VrednostAtributaOsiguranja[] = new Array();
     if(!tipAtributa.kontekst.visestrukoDodavanje){
-      var vrednostAtributa: VrednostAtributaOsiguranja = new VrednostAtributaOsiguranja(vrednost,tipAtributa);
+      var vrednostAtributa: VrednostAtributaOsiguranja = new VrednostAtributaOsiguranja(vrednost,tipAtributa, 0);
       vrednosti.push(vrednostAtributa);
     }
     this.vrednostiAtributa.set(tipAtributa.id,vrednosti);
@@ -183,7 +183,7 @@ export class OsiguranjeComponent implements OnInit {
           }
         this.ponavljajuciAtributi.push(1);
         for(let i = 0; i < tipoviAtributa.length;i++){
-          this.vrednostiAtributa.get(tipoviAtributa[i].id).push(new VrednostAtributaOsiguranja('',tipoviAtributa[i]));
+          this.vrednostiAtributa.get(tipoviAtributa[i].id).push(new VrednostAtributaOsiguranja('',tipoviAtributa[i], index + 1));
         }
       }
     }
@@ -277,7 +277,7 @@ export class OsiguranjeComponent implements OnInit {
     }
     //saljem sajicu za dobijanje cene i otvaram novi modalni za unos nacin placanja
     this.osiguranjeService.postCena(vrednostiKojeUticuNaCenu).then(response => {
-      this.cenaOsiguranja = response;
+      this.osiguranje.iznos = response;
     });
     this.prikazCeneOsiguranja = true;
   }

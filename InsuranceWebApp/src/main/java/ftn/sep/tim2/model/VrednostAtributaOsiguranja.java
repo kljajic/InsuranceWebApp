@@ -7,6 +7,7 @@ public class VrednostAtributaOsiguranja implements Serializable{
 	private static final long serialVersionUID = -7767383711555084420L;
 	private Long id;
 	private String vrednost;
+	private Integer kontrolniBroj;
 	private TipAtributa tipAtributa;
 	private Osiguranje osiguranje;
 	
@@ -27,6 +28,14 @@ public class VrednostAtributaOsiguranja implements Serializable{
 
 	public void setVrednost(String vrednost) {
 		this.vrednost = vrednost;
+	}
+
+	public Integer getKontrolniBroj() {
+		return kontrolniBroj;
+	}
+
+	public void setKontrolniBroj(Integer kontrolniBroj) {
+		this.kontrolniBroj = kontrolniBroj;
 	}
 
 	public TipAtributa getTipAtributa() {
