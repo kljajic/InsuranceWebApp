@@ -15,7 +15,6 @@
           <p class="bq-tittle">{{ konteksti.get(redniBrojKonteksta).naziv }}</p>
         </blockquote>
         <form #myForm="ngForm" ngNativeValidate> 
-          <p>Validna: {{ myForm.valid }}</p>         
           <div *ngIf = "!konteksti.get(redniBrojKonteksta).visestrukoDodavanje">
             <div class="form-group" *ngFor = "let tipAtributa of tipoviAtributa.get(redniBrojKonteksta); let ii = index">
               <input type = "radio" *ngIf = "tipAtributa.kontekst.predstavljaGrupu" [name] = "tipAtributa.kontekst.naziv" [value] = "tipAtributa.naziv" [(ngModel)]="choosenItem" (click) = 'removeSelection()' [required] = "tipAtributa.obavezan"/>
