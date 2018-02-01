@@ -32,7 +32,7 @@ export class OsiguranjeComponent implements OnInit {
   kontrolniAtributi: Map<number, KontrolniAtribut>;
   ponavljajuciAtributi: Array<number>;
   osiguranje: Osiguranje;
-  
+  vrednostiKojeUticuNaCenu :VrednostAtributaOsiguranja[];
   vrednostiAtributa: Map<number,VrednostAtributaOsiguranja[]>; //KEY: tipAtributaId, VALUE: VrednostAtributa
 
   tipAtributaMaxArray = [];
@@ -50,6 +50,7 @@ export class OsiguranjeComponent implements OnInit {
       this.ponavljajuciAtributi = new Array();
       this.osiguranje = new Osiguranje();
       this.prikazCeneOsiguranja = false;
+      this.vrednostiKojeUticuNaCenu = new Array();
   }
 
   public openModal(template: TemplateRef<any>) {
@@ -266,17 +267,18 @@ export class OsiguranjeComponent implements OnInit {
         return;
       }
     }  
-    for(let listaAtributa of Array.from(this.vrednostiAtributa.values())){
-      this.osiguranje.vrednostiAtributaOsiguranja.push.apply(this.osiguranje.vrednostiAtributaOsiguranja,listaAtributa);
-    }
-    let vrednostiKojeUticuNaCenu :VrednostAtributaOsiguranja[] = new Array();
-    for(let vrednostAtributa of this.osiguranje.vrednostiAtributaOsiguranja){
-      if(vrednostAtributa.tipAtributa.uticeNaCenu){
-        vrednostiKojeUticuNaCenu.push(vrednostAtributa);
+    if(this.osiguranje.vrednostiAtributaOsiguranja.length == 0){
+      for(let listaAtributa of Array.from(this.vrednostiAtributa.values())){
+        this.osiguranje.vrednostiAtributaOsiguranja.push.apply(this.osiguranje.vrednostiAtributaOsiguranja,listaAtributa);
+      }
+      for(let vrednostAtributa of this.osiguranje.vrednostiAtributaOsiguranja){
+        if(vrednostAtributa.tipAtributa.uticeNaCenu){
+          this.vrednostiKojeUticuNaCenu.push(vrednostAtributa);
+        }
       }
     }
     //saljem sajicu za dobijanje cene i otvaram novi modalni za unos nacin placanja
-    this.osiguranjeService.postCena(vrednostiKojeUticuNaCenu).then(response => {
+    this.osiguranjeService.postCena(this.vrednostiKojeUticuNaCenu).then(response => {
       this.osiguranje.iznos = response;
     });
     this.prikazCeneOsiguranja = true;
