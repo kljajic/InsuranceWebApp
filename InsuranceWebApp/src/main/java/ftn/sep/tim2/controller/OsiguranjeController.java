@@ -31,6 +31,7 @@ public class OsiguranjeController {
 	@PostMapping("/{tipOsiguranjaId}/{tipUplate}")
 	@ResponseBody
 	public String createOsiguranje(@RequestBody Osiguranje osiguranje, @PathVariable("tipOsiguranjaId")Long tipOsiguranjaId, @PathVariable("tipUplate")String tipUplate) {
+		System.out.println("KRRRRKRKRKR");
 		return restTemplate.postForObject(databaseUri.getDatabaseUri() + "/osiguranja/" + tipOsiguranjaId + "/" + tipUplate, osiguranje, String.class);
 	}
 	
